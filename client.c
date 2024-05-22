@@ -17,7 +17,7 @@ int main() {
     char *response;
     char command[100];
     int cookies_count = 0;
-    // array pentru a stoca cookie-urile sesiunii curente
+    // array pentru stocarea cookie-urilor sesiunii curente
     char **cookies = (char **)malloc(cookies_count * sizeof(char *));
     if (cookies == NULL) {
         perror("Malloc failed.");
@@ -31,7 +31,7 @@ int main() {
         exit(1);
     }
 
-    // se primesc comenzi pana la comanda 'exit'
+    // se primesc comenzi pana la intalnirea comenzii 'exit'
     while(1) {
         // se citeste comanda de la tastatura
         fgets(command, 100, stdin);
@@ -220,7 +220,7 @@ int main() {
                 continue;
             }
 
-            // se extrage raspunsul
+            // se extrag cartile din raspunsul serverului
             char *books = strstr(response, "[");
             JSON_Value *main_obj = json_parse_string(books);
             JSON_Array *books_arr = json_value_get_array(main_obj);
@@ -282,6 +282,7 @@ int main() {
                 }
             }
 
+            // se inchide conexiunea daca id-ul nu este valid
             if (flag == 1) {
                 close_connection(sockfd);
                 close(sockfd);
@@ -307,7 +308,7 @@ int main() {
                 continue;
             }
 
-            // se extrage raspunsul
+            // se extrage cartea din raspunsul serverului
             char *book = strstr(response, "{");
             JSON_Value *main_obj = json_parse_string(book);
             JSON_Object *book_obj = json_value_get_object(main_obj);
@@ -344,9 +345,9 @@ int main() {
             int sockfd = open_connection(HOST, PORT, AF_INET, SOCK_STREAM, 0);
 
             // se citesc datele cartii
-            char title[50];
+            char title[100];
             printf("title=");
-            fgets(title, 50, stdin);
+            fgets(title, 100, stdin);
             title[strlen(title) - 1] = '\0';
 
             char author[50];
@@ -370,11 +371,22 @@ int main() {
             page_count[strlen(page_count) - 1] = '\0';
 
             // se verifica daca numarul de pagini este valid
+            int flag = 0;
             for (int i = 0; i < strlen(page_count); i++) {
                 if (page_count[i] < '0' || page_count[i] > '9') {
                     puts("ERROR - Invalid page count.");
+                    flag = 1;
                     break;
                 }
+            }
+
+            // daca numarul de pagini nu este valid
+            // nu se permite adaugarea cartii
+            // se inchide conexiunea
+            if (flag == 1) {
+                close_connection(sockfd);
+                close(sockfd);
+                continue;
             }
 
             int page_count_int = atoi(page_count);
@@ -444,6 +456,7 @@ int main() {
                 }
             }
 
+            // se inchide conexiunea daca id-ul nu este valid
             if (flag == 1) {
                 close_connection(sockfd);
                 close(sockfd);
@@ -505,7 +518,7 @@ int main() {
             close_connection(sockfd);
             close(sockfd);
         } else {
-            printf("Invalid command.\n");
+            puts("Invalid command.");
         }
     }
 
