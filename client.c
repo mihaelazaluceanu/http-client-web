@@ -62,6 +62,15 @@ int main() {
             fgets(password, 100, stdin);
             password[strlen(password) - 1] = '\0';
 
+            // se verifica daca s-a introdus un username sau parola cu spatii
+            if (strchr(username, ' ') != NULL || strlen(username) == 0 ||
+                strchr(password, ' ') != NULL || strlen(password) == 0) {
+                puts("ERROR - Invalid username/password. Username/password cannot contain spaces.");
+                close_connection(sockfd);
+                close(sockfd);
+                continue;
+            }
+
             // se construieste obiectul JSON
             JSON_Value *main_obj = json_value_init_object();
             JSON_Object *reg_obj = json_value_get_object(main_obj);
@@ -370,6 +379,24 @@ int main() {
             fgets(page_count, 10, stdin);
             page_count[strlen(page_count) - 1] = '\0';
 
+            // se verifica daca celelalte campuri nu sunt nule
+            if (strlen(title) == 0 || strlen(author) == 0 || strlen(genre) == 0 ||
+                strlen(publisher) == 0 || strlen(page_count) == 0) {
+                puts("ERROR - Some fields are empty. Please fill in all the fields.");
+                close_connection(sockfd);
+                close(sockfd);
+                continue;
+            }
+
+            // se verifica ca campurile sa nu inceapa cu spatii
+            if (title[0] == ' ' || author[0] == ' ' || genre[0] == ' ' ||
+                publisher[0] == ' ' || page_count[0] == ' ') {
+                puts("ERROR - Some fields start with spaces. Please fill in all the fields correctly.");
+                close_connection(sockfd);
+                close(sockfd);
+                continue;
+            }
+
             // se verifica daca numarul de pagini este valid
             int flag = 0;
             for (int i = 0; i < strlen(page_count); i++) {
@@ -388,6 +415,7 @@ int main() {
                 close(sockfd);
                 continue;
             }
+
 
             int page_count_int = atoi(page_count);
 
