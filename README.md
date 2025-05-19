@@ -1,10 +1,4 @@
-# Tema 4 PCom - Protocolul HTTP. Client web.
-Ca punct de start in rezolvare temei a servit **Laboratorul 09**, prin folosirea
-fisierelor `buffer.c`, `buffer.h`, `helpers.c`, `helpers.h`, `requests.c`,
-`requests.h`.
-Cum tema a fost rezolvata in **C**, pentru lucru cu fisierele **JSON** m-am folosit
-de biblioteca `parson.c`, sugerata si in enuntul temei (https://github.com/kgabis/parson).
-
+# Protocolul HTTP. Client web.
 ### Flow-ul
 Se primesc comenzi de la tastatura, pana la intalnirea comenzii de *exit*.
 
