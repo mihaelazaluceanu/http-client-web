@@ -1,8 +1,8 @@
 #ifndef _REQUESTS_
 #define _REQUESTS_
 
-// computes and returns a GET request string (query_params
-// and cookies can be set to NULL if not needed)
+// computes and returns a GET request string
+// (query_params and cookies can be set to NULL if not needed)
 char *compute_get_request(char *host, char *url, char *query_params,
 							char **cookies, int cookies_count, char *jwt);
 
