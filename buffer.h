@@ -14,7 +14,7 @@ buffer buffer_init(void);
 // destroys a buffer
 void buffer_destroy(buffer *buffer);
 
-// adds data of size data_size to a buffer
+// adds data of data_size to a buffer
 void buffer_add(buffer *buffer, const char *data, size_t data_size);
 
 // checks if a buffer is empty
